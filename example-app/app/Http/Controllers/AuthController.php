@@ -79,4 +79,14 @@ class AuthController extends Controller
 
         return response()->json(["message" => $user]);
     }
+    public function getAll(){
+        $users = User::select('id', 'email')
+                 ->with(['createdTasks:id,title,description,created_by']) 
+                 ->get();
+        $arr = $users->map(function($user){
+            $tasks = $user->createdTasks;
+            return $user->toArray();
+        });
+        return response()->json(["message"=> $arr]);
+    }
 }

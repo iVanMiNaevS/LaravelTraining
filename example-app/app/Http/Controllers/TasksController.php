@@ -82,8 +82,13 @@ class TasksController extends Controller
 
         return response()->json(['message' => 'Not your tasks'], 403);
     }
-    public function getTasksByUser(Request $request){
-        return response()->json(["message"=>$request->user()->createdTasks()->select("title", "tasks.id", "description")->get()->toArray()]);
+
+    public function disk(Request $request){
+            return response()->json(["message"=>$request->user()->createdTasks()->select("title", "tasks.id", "description")->get()->toArray()]);
+    }
+
+    public function shared(Request $request){
+        return response()->json(["message"=>$request->user()->accessibleTasks()->select("title", "tasks.id", "description")->get()->toArray()]);
     }
 
     public function deleteUsers(Request $request,Task $task){
